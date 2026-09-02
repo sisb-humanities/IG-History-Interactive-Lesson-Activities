@@ -37,14 +37,11 @@ h1,h2,h3,h4,.disp{font-family:'Josefin Sans',sans-serif;letter-spacing:.01em}
 
 /* ---- top bar: lacquer black with a brass keyline ---- */
 .topbar{background:var(--black);color:#fff;padding:0 24px;height:58px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:200;border-bottom:3px solid var(--brass)}
-/* SISB logo — official branding. Lato and the brand blue, as on the
-   Economics site. Left alone deliberately: the display face used
-   elsewhere on this page has different vertical metrics and drops the
-   bar below the cap height. */
-.tb-logo{font-family:'Lato',sans-serif;font-size:20px;font-weight:900;letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;line-height:1}
-/* The bar is Lato's cap height (1433/2000 em) and sits ON the baseline:
+/* SISB logo — official branding, left in Lato and the brand blue.
+   The bar is Lato's cap height (1433/2000 em) and sits ON the baseline:
    a flex item with no text baseline aligns by its bottom border edge, so
-   it matches the S and B exactly instead of being centred on the line box. */
+   it matches the S and B instead of being centred on the line box. */
+.tb-logo{font-family:'Lato',sans-serif;font-size:20px;font-weight:900;letter-spacing:.02em;color:#fff;display:flex;align-items:baseline;line-height:1}
 .tb-logo .logo-i{display:inline-block;width:5px;height:.7165em;background:var(--sisb-blue);border-radius:1px;margin:0 3px;align-self:baseline}
 .tb-div{width:1px;height:26px;background:rgba(255,255,255,.22);margin:0 6px}
 .tb-title{font-size:12.5px;font-weight:400;color:rgba(255,255,255,.82);letter-spacing:.02em}
@@ -314,10 +311,9 @@ h1,h2,h3,h4,.disp{font-family:'Josefin Sans',sans-serif;letter-spacing:.01em}
       <p>Two of the twelve can be defended for more than one leader. Those are marked as correct either way when you check, and the note explains why.</p>
     </div>
 
-    <div class="fig-row" style="grid-template-columns:1fr 1fr 1fr">
-      <div data-fig="wilson"></div>
-      <div data-fig="lloydgeorge"></div>
-      <div data-fig="clemenceau"></div>
+    <div class="fig-row">
+      <div data-fig="bigfour"></div>
+      <div data-fig="wilsonportrait"></div>
     </div>
 
     <div class="sort-grid cols-2">
@@ -659,6 +655,7 @@ h1,h2,h3,h4,.disp{font-family:'Josefin Sans',sans-serif;letter-spacing:.01em}
     <h3>Where these images come from</h3>
     <p>Every image on this page is a source published between 1919 and 1933 and is out of copyright. Images are loaded from a local <code>img/</code> folder; any that have not been saved yet show a dashed slot naming the file to add.</p>
     <ul id="creditList"></ul>
+    <p id="imgStatus" style="margin:0;font-weight:700;color:var(--teal-dk)"></p>
   </div>
 
   <div class="foot-note">SISB Nonthaburi &middot; Cambridge IGCSE History 0470 &middot; Unit 1.1<br>Built to accompany Ben Walsh, <i>Modern World History for Cambridge IGCSE</i>, Chapter 1, pages 4&ndash;23</div>
@@ -1039,6 +1036,9 @@ function showMoved(){
    ===================================================================== */
 var IMG_DIR='img/';
 var COMMONS='https://commons.wikimedia.org/wiki/Special:FilePath/';
+/* ?width= asks Commons for a scaled copy rather than the full-size original,
+   which for some of these is over 10 MB. */
+function commons(fileName,w){ return COMMONS+encodeURIComponent(fileName)+'?width='+(w||1000); }
 var IMAGES={
  reckoning:{
    file:'01-the-reckoning-1919.jpg', web:null,
@@ -1052,23 +1052,20 @@ var IMAGES={
    t:'&lsquo;The Melting Pot&rsquo;. Figures add ingredients to a cauldron of peace soup, among them national sentiment and national ambition.',
    p:'Cartoon published in an Australian newspaper, 1919',
    find:'National Library of Australia (Trove) newspaper archive'},
- wilson:{
-   file:'03-wilson.jpg', web:null,
-   n:'WOODROW WILSON', t:'President of the United States, 1913&ndash;21. An idealist and a reformer who, once he had made up his mind, was almost impossible to shift.',
-   p:'Photographic portrait, c.1919',
-   find:'Library of Congress Prints and Photographs, or Wikimedia Commons'},
- lloydgeorge:{
-   file:'04-lloyd-george.jpg', web:null,
-   n:'DAVID LLOYD GEORGE', t:'Prime Minister of Britain, 1916&ndash;22. A realist who occupied the middle ground between Wilson and Clemenceau, and who agreed privately with neither.',
-   p:'Photographic portrait, c.1919',
-   find:'Library of Congress Prints and Photographs, or Wikimedia Commons'},
- clemenceau:{
-   file:'05-clemenceau.jpg', web:null,
-   n:'GEORGES CLEMENCEAU', t:'Prime Minister of France, 1917&ndash;20, and seventy-seven years old at the conference. Known as the Tiger. He had seen his country invaded twice, in 1870 and 1914.',
-   p:'Photographic portrait, c.1919',
-   find:'Library of Congress Prints and Photographs, or Wikimedia Commons'},
+ bigfour:{
+   file:'03-big-four-1919.jpg', web:commons('Big four.jpg',1200),
+   n:'THE LEADERS AT PARIS &middot; TEXTBOOK PAGES 6, 8 AND 9',
+   t:'Left to right: David Lloyd George (Britain), Vittorio Orlando (Italy), Georges Clemenceau (France) and Woodrow Wilson (USA). Note that there are four men here, not three &mdash; Italy was at the table, but the decisions on Germany were taken by the other three, which is why the textbook calls them the Big Three.',
+   p:'Photograph, Paris Peace Conference, 1919 &middot; Wikimedia Commons, public domain',
+   find:'Wikimedia Commons'},
+ wilsonportrait:{
+   file:'03b-wilson.jpg', web:commons('Woodrow Wilson in 1919.jpg',700),
+   n:'WOODROW WILSON',
+   t:'President of the United States, 1913&ndash;21. An idealist and a reformer who, once he had made up his mind, was almost impossible to shift.',
+   p:'Photographic portrait, 1919 &middot; Library of Congress via Wikimedia Commons, no known restrictions',
+   find:'Wikimedia Commons'},
  conference:{
-   file:'06-paris-peace-conference.jpg', web:COMMONS+'Treaty%20of%20Versailles%20oldphoto.jpg',
+   file:'06-paris-peace-conference.jpg', web:commons('Treaty of Versailles oldphoto.jpg',1100),
    n:'SOURCE 4 &middot; TEXTBOOK PAGE 10',
    t:'The delegates at the Paris Peace Conference. Over thirty leaders attended with their officials and advisers, which is why the real decisions were taken by three men in private.',
    p:'Photograph of the Paris Peace Conference, 1919 &middot; Wikimedia Commons, public domain',
@@ -1098,13 +1095,13 @@ var IMAGES={
    p:'German propaganda poster, 1923',
    find:'German Historical Museum (DHM) Berlin, or Wikimedia Commons'},
  banknote:{
-   file:'11-one-billion-mark-1923.jpg', web:COMMONS+'GER-113-Reichsbanknote-1%20Billion%20Mark%20(1923).jpg',
+   file:'11-one-billion-mark-1923.jpg', web:commons('GER-113-Reichsbanknote-1 Billion Mark (1923).jpg',1000),
    n:'SOURCE 11 &middot; TEXTBOOK PAGE 17',
    t:'A German banknote of 1923 for one billion marks. By that autumn prices could rise between joining a queue in a shop and reaching the front of it.',
    p:'Reichsbanknote, 1 Billion Mark, Berlin 1923 &middot; Wikimedia Commons, public domain',
    find:'Wikimedia Commons'},
  dyson:{
-   file:'12-peace-and-future-cannon-fodder-1919.jpg', web:COMMONS+'Versailles%20cannonfodder.jpg',
+   file:'12-peace-and-future-cannon-fodder-1919.jpg', web:commons('Versailles cannonfodder.jpg',1100),
    n:'SOURCE 14 &middot; TEXTBOOK PAGE 18',
    t:'&lsquo;Peace and Future Cannon Fodder&rsquo;. The Big Three walk away from the peace treaty; a naked child labelled the class of 1940 weeps behind a pillar. Clemenceau says: <i>Curious! I seem to hear a child weeping.</i>',
    p:'Will Dyson, <i>Daily Herald</i>, May 1919 &middot; Wikimedia Commons, public domain',
@@ -1136,7 +1133,8 @@ function figHTML(key,blind){
     '<div class="fs-f">'+IMG_DIR+m.file+'</div>'+
     '<div class="fs-b">Save the image with this filename into the <b>img</b> folder and it will appear here.<br>'+m.find+'</div></div>';
   return '<figure class="fig" data-key="'+key+'">'+
-    '<img alt="'+key+'" src="'+IMG_DIR+m.file+'" data-web="'+(m.web||'')+'" data-slot="'+encodeURIComponent(slot)+'">'+
+    '<img alt="'+m.n.replace(/&middot;.*$/,'').trim()+'" loading="lazy" referrerpolicy="no-referrer" '+
+      'src="'+IMG_DIR+m.file+'" data-stage="local" data-web="'+(m.web||'')+'" data-slot="'+encodeURIComponent(slot)+'">'+
     (blind?'<div class="btn-row"><button class="mini-btn" onclick="revealCap(this)">Reveal what this is</button></div><div style="display:none">'+cap+'</div>':cap)+
     '</figure>';
 }
@@ -1145,21 +1143,39 @@ function revealCap(btn){
   f.querySelector('div[style]').style.display='';
   btn.parentNode.remove();
 }
+function failImage(img){
+  /* stage tells us what has already been tried. Do NOT inspect img.src for
+     this: the property returns a fully resolved absolute URL, so on a hosted
+     site a plain "img/x.jpg" reads back as "https://.../img/x.jpg" and any
+     test for "http" is true from the very first attempt. */
+  var stage=img.dataset.stage, web=img.dataset.web;
+  if(stage==='local' && web){
+    img.dataset.stage='web';
+    img.src=web;
+    return;
+  }
+  var fig=img.closest('.fig');
+  img.insertAdjacentHTML('beforebegin', decodeURIComponent(img.dataset.slot));
+  img.remove();
+  if(fig) fig.classList.add('unresolved');
+  updateImageStatus();
+}
+function updateImageStatus(){
+  var el=document.getElementById('imgStatus'); if(!el) return;
+  var total=document.querySelectorAll('.fig').length;
+  var missing=document.querySelectorAll('.fig.unresolved').length;
+  el.textContent = missing===0
+    ? 'All '+total+' images are loading.'
+    : (total-missing)+' of '+total+' images are loading. The '+missing+' dashed panels above name the file to save into the img folder.';
+}
 function mountFigures(){
   document.querySelectorAll('[data-fig]').forEach(function(d){
     d.outerHTML=figHTML(d.dataset.fig, d.dataset.blind==='1');
   });
   document.querySelectorAll('.fig img').forEach(function(img){
-    img.onerror=function(){
-      var web=img.dataset.web;
-      if(web && img.src.indexOf('http')!==0){ img.src=web; return; }
-      var fig=img.closest('.fig');
-      var slot=decodeURIComponent(img.dataset.slot);
-      img.insertAdjacentHTML('beforebegin',slot);
-      img.remove();
-      if(fig) fig.classList.add('unresolved');
-    };
-    if(img.complete && img.naturalWidth===0) img.onerror();
+    img.addEventListener('error',function(){ failImage(img); });
+    img.addEventListener('load',updateImageStatus);
+    if(img.complete && img.naturalWidth===0) failImage(img);
   });
   var list=document.getElementById('creditList');
   if(list){
